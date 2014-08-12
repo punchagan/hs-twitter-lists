@@ -5,7 +5,6 @@ The script aims to do stuff without having a web-server as the "middle man"
 from __future__ import absolute_import, print_function
 
 import getpass
-import os
 import re
 
 from requests import get, post, Session
@@ -28,9 +27,6 @@ HS_ACCESS_TOKEN_URL= HS_BASE_URL + '/oauth/token'
 
 def get_hs_credentials():
     """ Get the credentials of the user. """
-
-    global HS_ID
-    global HS_SECRET
 
     username = raw_input('HS Email: ').strip()
     password = getpass.getpass('HS Password: ').strip()
@@ -101,6 +97,9 @@ def _authorize_client(session):
 
     """
 
+    if not HS_ID or not HS_SECRET:
+        raise ValueError('Need a valid HS client ID and secret.')
+
     data = {
         'client_id': HS_ID,
         'response_type': 'code',
@@ -108,7 +107,6 @@ def _authorize_client(session):
         }
 
     return session.post(HS_AUTHORIZE_URL, data=data)
-
 
 def _get_authenticity_token(session):
     """ Parse the page to get the authenticity token. """
@@ -137,17 +135,6 @@ def _get_code(url):
     _, code = url.rsplit('/', 1)
 
     return code
-
-
-def _read_secrets_from_env():
-    """ Read environment variables. """
-
-    global HS_ID
-    global HS_SECRET
-
-    HS_ID= os.getenv('HS_ID')
-    HS_SECRET = os.getenv('HS_SECRET')
-_read_secrets_from_env()
 
 
 def _request_access_token(code):
