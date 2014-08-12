@@ -1,8 +1,9 @@
 """A client for the HackerSchool OAuth API.
 
-The script aims to do stuff without havign a web-server where users
-interact.
+The script aims to do stuff without having a web-server as the "middle man"
 """
+from __future__ import absolute_import, print_function
+
 import getpass
 import os
 import re
@@ -20,8 +21,9 @@ HS_SECRET = ''
 REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
 #### Auth server end-points
-HS_AUTHORIZE_URL='https://www.hackerschool.com/oauth/authorize'
-HS_ACCESS_TOKEN_URL='https://www.hackerschool.com/oauth/token'
+HS_BASE_URL = 'https://www.hackerschool.com'
+HS_AUTHORIZE_URL= HS_BASE_URL + '/oauth/authorize'
+HS_ACCESS_TOKEN_URL= HS_BASE_URL + '/oauth/token'
 
 
 def get_hs_credentials():
@@ -190,8 +192,8 @@ def _request_authorization_grant(session):
 
 
 if __name__ == '__main__':
-    my_url = 'https://www.hackerschool.com/api/v1/people/me'
-    username = 'punchagan@muse-amuse.in'
+    my_url = HS_BASE_URL + '/api/v1/people/me'
+    username = raw_input('HS Username: ').strip()
     password = getpass.getpass('HS Password: ')
     access_token, _ = get_access_token(username=username, password=password)
-    print request(access_token, my_url)
+    print(request(access_token, my_url))
