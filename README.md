@@ -4,7 +4,10 @@ A script to create private lists of Hacker Schoolers or twitter, batch-wise.
 
 The script uses OAuth2.0 to authenticate with HackerSchool and Twitter.
 
-You need to have an OAuth application registered under your HackerSchool
+    $ git clone https://github.com/punchagan/hs-twitter-lists.git
+    $ pip install -r requirements.txt
+
+You also need to have an OAuth application registered under your HackerSchool
 account. Create a new OAuth account on your HS settings page, with the
 `REDIRECT_URL` set to `urn:ietf:wg:oauth:2.0:oob`.
 
