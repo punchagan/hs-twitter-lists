@@ -3,7 +3,6 @@ from __future__ import absolute_import, print_function
 
 import getpass
 from os.path import abspath, dirname, join, exists
-import pprint
 import re
 
 from hs_oauth import HS_BASE_URL, get_access_token, request
