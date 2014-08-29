@@ -18,7 +18,7 @@ SECRET of this app.
 
 Run
 
-    python create_lists.py
+    python create_twitter_lists.py
 
 # Notes
 
