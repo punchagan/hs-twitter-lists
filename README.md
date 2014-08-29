@@ -20,6 +20,10 @@ Run
 
     python create_twitter_lists.py
 
+OR
+
+    python github_follow.py
+
 # Notes
 
 The twitter API doesn't seem to work as well as some of the other ones I have
