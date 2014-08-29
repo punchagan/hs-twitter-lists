@@ -66,6 +66,24 @@ def get_access_token(session=None, username=None, password=None):
     # Request the tokens
     return _request_access_token(code)
 
+# Get all batches
+def get_batches(access_token):
+    # FIXME: move this code to the hs_oauth module, methods on the class that we
+    # wish we had!
+    batches = sorted(
+        request(access_token, HS_BASE_URL + '/api/v1/batches'),
+        key=lambda batch:batch['id']
+    )
+
+    return batches
+
+# Get list of all users, given batch
+def get_people_in_a_batch(batch_id, access_token):
+    return request(
+        access_token, HS_BASE_URL + '/api/v1/batches/%d/people' % batch_id
+    )
+
+
 def request(access_token, resource):
     """ Client requests a protected resource. """
 

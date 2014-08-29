@@ -5,28 +5,11 @@ import getpass
 from os.path import abspath, dirname, join, exists
 import re
 
-from hs_oauth import HS_BASE_URL, get_access_token, request
+from hs_oauth import get_access_token, get_batches, get_people_in_a_batch
 
 from twitter import Twitter, OAuth, read_token_file, oauth_dance
 from twitter.cmdline import CONSUMER_KEY, CONSUMER_SECRET
 
-
-# Get all batches
-def get_batches(access_token):
-    # FIXME: move this code to the hs_oauth module, methods on the class that we
-    # wish we had!
-    batches = sorted(
-        request(access_token, HS_BASE_URL + '/api/v1/batches'),
-        key=lambda batch:batch['id']
-    )
-
-    return batches
-
-# Get list of all users, given batch
-def get_people_in_a_batch(batch_id, access_token):
-    return request(
-        access_token, HS_BASE_URL + '/api/v1/batches/%d/people' % batch_id
-    )
 
 # Create new twitter list.  Make sure it is private.
 def get_twitter_instance():
