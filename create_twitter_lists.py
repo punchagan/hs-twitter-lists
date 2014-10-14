@@ -119,5 +119,12 @@ def main():
 
         create_list(name=name, members=members, description=description)
 
+        # Add members to all Hacker Schoolers list.
+        create_list(
+            name='Hacker School',
+            members=members,
+            description='All Hacker Schoolers!'
+        )
+
 if __name__ == '__main__':
     main()
