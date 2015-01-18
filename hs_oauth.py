@@ -56,12 +56,10 @@ def get_access_token(session=None, username=None, password=None):
         session = get_authenticated_session(username, password)
 
     # Request the authorization server for the code.
-    _request_authorization_grant(session)
+    response = _request_authorization_grant(session)
 
-    # The auth server redirects our session to the specified REDIRECT_URI.  We
-    # parse the redirected url to get the code.
-    code_url = _authorize_client(session).url
-    code = _get_code(code_url)
+    # Get the authorization code
+    code = _get_code(response.content)
 
     # Request the tokens
     return _request_access_token(code)
@@ -139,18 +137,14 @@ def _get_authenticity_token(session):
     raise ValueError('Could not find authenticity token')
 
 
-def _get_code(url):
+def _get_code(html):
     """ A client-internal method to get the authentication code.
 
-    Ideally, on user autorization, the user is redirected to a client
-    url, where the client can obtain the code.
-
-    In this example we cheat and call the method directly with the
-    url.
+    The client code is shown in the html. Parse it out of the html.
 
     """
 
-    _, code = url.rsplit('/', 1)
+    code, = re.findall('<code.*id="authorization_code">(.*)</code>', html)
 
     return code
 
