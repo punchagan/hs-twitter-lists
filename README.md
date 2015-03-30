@@ -1,13 +1,13 @@
-A script to create private lists of Hacker Schoolers or twitter, batch-wise.
+A script to create private lists of Recursers on twitter.
 
 # Setup
 
-The script uses OAuth2.0 to authenticate with HackerSchool and Twitter.
+The script uses OAuth2.0 to authenticate with Recurse Center and Twitter.
 
     $ git clone https://github.com/punchagan/hs-twitter-lists.git
     $ pip install -r requirements.txt
 
-You also need to have an OAuth application registered under your HackerSchool
+You also need to have an OAuth application registered under your Recurse Center
 account. Create a new OAuth account on your HS settings page, with the
 `REDIRECT_URL` set to `urn:ietf:wg:oauth:2.0:oob`.
 
