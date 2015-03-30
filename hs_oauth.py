@@ -20,7 +20,7 @@ HS_SECRET = ''
 REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 
 #### Auth server end-points
-HS_BASE_URL = 'https://www.hackerschool.com'
+HS_BASE_URL = 'https://www.recurse.com'
 HS_AUTHORIZE_URL= HS_BASE_URL + '/oauth/authorize'
 HS_ACCESS_TOKEN_URL= HS_BASE_URL + '/oauth/token'
 
@@ -99,7 +99,8 @@ def _authenticate(session, username, password):
         'commit': 'Log+in',
         'authenticity_token': _get_authenticity_token(session),
     }
-    session.post('https://www.hackerschool.com/sessions', data=data)
+    response = session.post('https://www.recurse.com/sessions', data=data)
+    assert 'Your email or password is incorrect' not in response.content, 'Login failed'
 
     return session
 
@@ -127,7 +128,7 @@ def _authorize_client(session):
 def _get_authenticity_token(session):
     """ Parse the page to get the authenticity token. """
 
-    response = session.get('https://www.hackerschool.com/login')
+    response = session.get('https://www.recurse.com/login')
     matches = re.findall('<meta.*content="(.*?)".*name="(.*)".*/>', response.text)
 
     for content, name in matches:
