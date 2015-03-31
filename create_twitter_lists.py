@@ -94,7 +94,7 @@ def sanitize_name(name):
     return sanitized_name[:25]
 
 
-def main():
+def main(batch_wise_lists=False):
     # Authenticate with HS.
     hs_username = raw_input('HS Username: ')
     hs_password = getpass.getpass('HS Password: ')
@@ -105,10 +105,8 @@ def main():
     # token expires, etc.
     access_token, _ = get_access_token(username=hs_username, password=hs_password)
 
-    batches = get_batches(access_token)[::-1]
+    batches = get_batches(access_token, reverse=True)
     for batch in batches:
-        description = batch['name']
-        name = sanitize_name(description)
         members = [
             hacker['twitter']
 
@@ -117,14 +115,16 @@ def main():
             if 'twitter' in hacker and hacker['twitter']
         ]
 
-        create_list(name=name, members=members, description=description)
+        if batch_wise_lists:
+            description = batch['name']
+            name = sanitize_name(description)
 
-        # Add members to all Hacker Schoolers list.
-        create_list(
-            name='Hacker School',
-            members=members,
-            description='All Hacker Schoolers!'
-        )
+        else:
+             description='All Hacker Schoolers!'
+             name = 'Hacker School'
+
+        print('Working on %s ... ' % batch['name'])
+        create_list(name=name, members=members, description=description)
 
 if __name__ == '__main__':
     main()

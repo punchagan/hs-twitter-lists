@@ -65,12 +65,13 @@ def get_access_token(session=None, username=None, password=None):
     return _request_access_token(code)
 
 # Get all batches
-def get_batches(access_token):
+def get_batches(access_token, reverse=False):
     # FIXME: move this code to the hs_oauth module, methods on the class that we
     # wish we had!
     batches = sorted(
         request(access_token, HS_BASE_URL + '/api/v1/batches'),
-        key=lambda batch:batch['id']
+        key=lambda batch:batch['id'],
+        reverse=reverse,
     )
 
     return batches
