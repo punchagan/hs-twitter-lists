@@ -130,9 +130,9 @@ def _get_authenticity_token(session):
     """ Parse the page to get the authenticity token. """
 
     response = session.get('https://www.recurse.com/login')
-    matches = re.findall('<meta.*content="(.*?)".*name="(.*)".*/>', response.text)
+    matches = re.findall('<meta\s*?name="(.*?)"\s*content="(.*)".*/>', response.text)
 
-    for content, name in matches:
+    for name, content in matches:
         if name == 'csrf-token':
             return content
 
